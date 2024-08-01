@@ -11,7 +11,9 @@ Welcome to the Project Payment! This document provides instructions on using Doc
 1. Create all submodules in the project
 
    ```bash
-      git clone git@githubManager:StackManager/app-payment.git &&
+      git remote add origin git@githubManager:StackManager/app-web.git
+      or
+      git clone git@githubManager:StackManager/app-payment.git  &&
       cd app-payment &&
       git rm -r api-payment/service-auth/src/commons &&
       git submodule add git@githubManager:StackManager/app-commons.git api-web/service-web/src/commons &&
