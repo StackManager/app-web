@@ -1,0 +1,15 @@
+FROM node:latest as base
+
+WORKDIR /home/node/service-web
+
+COPY ./service-web/package*.json ./
+
+RUN npm i
+
+COPY ./service-web/ ./
+
+FROM base as production
+
+ENV NODE_PATH=./build
+
+RUN npm run build

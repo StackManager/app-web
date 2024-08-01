@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+  service_mongo_web:
+    image: mongo:latest
+    container_name: service_mongo_web
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - 27021:27017
+    volumes:
+      - mongodb_data_container_web:/data/db
+    networks:
+      - my_network
+
+  service_node_web:
+    build:
+      context: .
+      dockerfile: ./service-web/Dockerfile.dev
+      target: base
+    volumes:
+      - ./service-web/src:/home/node/service-web/src
+      - ./service-web/nodemon.json:/home/node/service-web/nodemon.json
+    container_name: service_node_web
+    env_file: .env
+    environment:
+      - MONGO_HOSTNAME=service_mongo_web
+    expose:
+      - '3004'
+    ports:
+      - '3004:3000'
+    command: npm run dev
+    depends_on:
+      - service_mongo_web
+    networks:
+      - my_network
+
+  mongo_express_web:
+    image: mongo-express
+    container_name: mongo-express-web
+    restart: unless-stopped
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=service_mongo_web
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=$MONGO_USERNAME
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=$MONGO_PASSWORD
+    ports:
+      - 8084:8081
+    depends_on:
+      - service_mongo_web
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    external: true
+
+volumes:
+  mongodb_data_container_web:
