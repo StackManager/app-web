@@ -14,7 +14,7 @@ Welcome to the Project Payment! This document provides instructions on using Doc
       git clone git@githubManager:StackManager/app-payment.git &&
       cd app-payment &&
       git rm -r api-payment/service-auth/src/commons &&
-      git submodule add git@githubManager:StackManager/app-commons.git api-payment/service-auth/src/commons &&
+      git submodule add git@githubManager:StackManager/app-commons.git api-web/service-web/src/commons &&
 
    ```
 

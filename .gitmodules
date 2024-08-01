@@ -1,0 +1,3 @@
+[submodule "api-web/service-web/src/commons"]
+	path = api-web/service-web/src/commons
+	url = git@githubManager:StackManager/app-commons.git
